@@ -85,7 +85,7 @@ function renderTodoList(todoList, ulElementId) {
 
 function getTodoList() {
     try {
-        return JSON.parse(localStorage.getItem('todo_list'));
+        return JSON.parse(localStorage.getItem('todo_list')) || [];
     } catch {
         return [];
     }
