@@ -65,6 +65,24 @@ function createTodoElement(todo) {
         })
     }
 
+    //add click event form edit button
+    const editButton = todoElement.querySelector('.edit');
+   
+    if(editButton) {
+        editButton.addEventListener('click', function() {
+            const submitForm = getFormSubmitElement();
+            submitForm.dataset.id = todo.id;
+            // check is add or is edit
+
+            // get title todo
+            const todoTitle = todo.title;
+            // fill title to input field
+            const inputText = document.getElementById('form__input');
+            if(!inputText) return;
+            inputText.value = todoTitle;
+        })
+    }
+
     return todoElement;
 }
 
@@ -93,16 +111,26 @@ function getTodoList() {
 
 function addTodo() {
     // handle default submit form
-    const submitForm = document.getElementById('submitFormId');
+    const submitForm = getFormSubmitElement();
     if(!submitForm) return;
 
     submitForm.addEventListener('submit', function(event) {
-        event.preventDefault();
+        event.preventDefault(); 
+        const dataSubmitFormId = submitForm.dataset.id;
+        if(dataSubmitFormId) {
+            const inputText = document.getElementById('form__input');
+            //get todoList
+            const currentTodo = getTodoList();
+            const index = currentTodo.findIndex(x => x.id.toString() === submitForm.dataset.id);
+            currentTodo[index].title = inputText.value;
+            localStorage.setItem('todo_list', JSON.stringify(currentTodo));
+            const todoTitle = document.querySelector(`#todoList > li[data-id="${dataSubmitFormId}"] .todo__title`);
+            todoTitle.textContent = currentTodo[index].title;
+        }else{
 
         // get input value
         const inputText = document.getElementById('form__input');
         if(!inputText || inputText.value.length === 0) return;
-
         // create new todo
         const newTodo = {
             id: Date.now() * Math.random(),
@@ -121,17 +149,22 @@ function addTodo() {
 
         //update UI
         const ulElement = getTodoListElement();
-
         if(!ulElement) return;
        
         ulElement.appendChild(newLiElement);
+        }
         submitForm.reset();
     })
+}
 
-    // query todo list
-    function getTodoListElement() {
-        return document.getElementById('todoList');
-    }
+// query form submit
+function getFormSubmitElement() {
+    return document.getElementById('submitForm');
+}
+
+// query todo list
+function getTodoListElement() {
+    return document.getElementById('todoList');
 }
 
 function setTodoList() {
