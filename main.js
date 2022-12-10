@@ -75,9 +75,9 @@ function createTodoElement(todo) {
 
             // get title todo
             const todoList = getTodoList();
+            //find lastest todo and get title
             const targetTodo = todoList.find(x => x.id === todo.id);
             const todoTitle = targetTodo.title;
-
             // fill title to input field
             const inputText = document.getElementById('form__input');
             if(!inputText) return;
@@ -126,8 +126,11 @@ function addTodo() {
             const index = currentTodo.findIndex(x => x.id.toString() === submitForm.dataset.id);
             currentTodo[index].title = inputText.value;
             localStorage.setItem('todo_list', JSON.stringify(currentTodo));
+
+            // query todo match data-id
             const todoTitle = document.querySelector(`#todoList > li[data-id="${dataSubmitFormId}"] .todo__title`);
             todoTitle.textContent = currentTodo[index].title;
+            delete submitForm.dataset.id;
         }else{
 
         // get input value
