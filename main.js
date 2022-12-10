@@ -77,13 +77,11 @@ function createTodoElement(todo) {
             const todoList = getTodoList();
             const targetTodo = todoList.find(x => x.id === todo.id);
             const todoTitle = targetTodo.title;
-            
+
             // fill title to input field
             const inputText = document.getElementById('form__input');
             if(!inputText) return;
             inputText.value = todoTitle;
-
-            console.log()
         })
     }
 
