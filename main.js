@@ -21,8 +21,7 @@ function createTodoElement(todo) {
     // update content where needed
     const titleElement = todoElement.querySelector('.todo__title');
     if(titleElement) titleElement.textContent = todo.title;
-    // TODO: attach event for button
-    // Each li has its own event attached
+
     // add click event for remove button 
     const removeButton = todoElement.querySelector('.remove');
     if(removeButton) {
@@ -36,7 +35,8 @@ function createTodoElement(todo) {
             todoElement.remove();
         })
     }
-    //add click event for mark-as-done button
+
+    // add click event for mark-as-done button
     const markAsDoneButton = todoElement.querySelector('.mark-as-done');
     if(markAsDoneButton) {
         markAsDoneButton.addEventListener('click', function() {
@@ -65,9 +65,8 @@ function createTodoElement(todo) {
         })
     }
 
-    //add click event form edit button
+    // add click event form edit button
     const editButton = todoElement.querySelector('.edit');
-   
     if(editButton) {
         editButton.addEventListener('click', function() {
             const submitForm = getFormSubmitElement();
@@ -91,7 +90,7 @@ function createTodoElement(todo) {
 function renderTodoList(todoList, ulElementId) {
     if(!Array.isArray(todoList) || todoList.length === 0) return;
 
-    //find ul element
+    // find ul element
     const ulElement = document.getElementById(ulElementId);
     if(!ulElement) return;
 
@@ -111,7 +110,7 @@ function getTodoList() {
     }
 }
 
-function addTodo() {
+function initFormSubmit() {
     // handle default submit form
     const submitForm = getFormSubmitElement();
     if(!submitForm) return;
@@ -121,6 +120,7 @@ function addTodo() {
         const dataSubmitFormId = submitForm.dataset.id;
         if(dataSubmitFormId) {
             const inputText = document.getElementById('form__input');
+            
             //get todoList
             const currentTodo = getTodoList();
             const index = currentTodo.findIndex(x => x.id.toString() === submitForm.dataset.id);
@@ -132,10 +132,10 @@ function addTodo() {
             todoTitle.textContent = currentTodo[index].title;
             delete submitForm.dataset.id;
         }else{
-
         // get input value
         const inputText = document.getElementById('form__input');
         if(!inputText || inputText.value.length === 0) return;
+
         // create new todo
         const newTodo = {
             id: Date.now() * Math.random(),
@@ -145,6 +145,7 @@ function addTodo() {
 
         //get lastest todo list
         const todoList = getTodoList();
+
         //add new todo
         todoList.push(newTodo);
 
@@ -207,5 +208,5 @@ function setTodoList() {
 (function(){
     const todoList = getTodoList();
     renderTodoList(todoList, 'todoList');
-    addTodo();
+    initFormSubmit();
 })()
