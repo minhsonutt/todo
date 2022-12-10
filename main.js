@@ -72,14 +72,18 @@ function createTodoElement(todo) {
         editButton.addEventListener('click', function() {
             const submitForm = getFormSubmitElement();
             submitForm.dataset.id = todo.id;
-            // check is add or is edit
 
             // get title todo
-            const todoTitle = todo.title;
+            const todoList = getTodoList();
+            const targetTodo = todoList.find(x => x.id === todo.id);
+            const todoTitle = targetTodo.title;
+            
             // fill title to input field
             const inputText = document.getElementById('form__input');
             if(!inputText) return;
             inputText.value = todoTitle;
+
+            console.log()
         })
     }
 
