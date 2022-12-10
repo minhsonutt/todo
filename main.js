@@ -52,7 +52,6 @@ function createTodoElement(todo) {
             const index = todoList.findIndex(x => x.id === todo.id);
             if(index >= 0) {
                 todoList[index].status = newStatus;
-                console.log(todoList)
                 localStorage.setItem('todo_list', JSON.stringify(todoList));
             }
 
@@ -92,6 +91,49 @@ function getTodoList() {
     }
 }
 
+function addTodo() {
+    // handle default submit form
+    const submitForm = document.getElementById('submitFormId');
+    if(!submitForm) return;
+
+    submitForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // get input value
+        const inputText = document.getElementById('form__input');
+        if(!inputText || inputText.value.length === 0) return;
+
+        // create new todo
+        const newTodo = {
+            id: Date.now() * Math.random(),
+            title: inputText.value,
+            status: 'pending'
+        }
+
+        //get lastest todo list
+        const todoList = getTodoList();
+        //add new todo
+        todoList.push(newTodo);
+
+        //save to localStorage
+        localStorage.setItem('todo_list', JSON.stringify(todoList))
+        const newLiElement = createTodoElement(newTodo);
+
+        //update UI
+        const ulElement = getTodoListElement();
+
+        if(!ulElement) return;
+       
+        ulElement.appendChild(newLiElement);
+        submitForm.reset();
+    })
+
+    // query todo list
+    function getTodoListElement() {
+        return document.getElementById('todoList');
+    }
+}
+
 function setTodoList() {
     const todo = [
         {
@@ -127,4 +169,5 @@ function setTodoList() {
 (function(){
     const todoList = getTodoList();
     renderTodoList(todoList, 'todoList');
+    addTodo();
 })()
