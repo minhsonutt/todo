@@ -51,7 +51,8 @@ function createTodoElement(todo) {
             const todoList = getTodoList();
             const index = todoList.findIndex(x => x.id === todo.id);
             if(index >= 0) {
-                todoList[index] = newStatus;
+                todoList[index].status = newStatus;
+                console.log(todoList)
                 localStorage.setItem('todo_list', JSON.stringify(todoList));
             }
 
@@ -91,37 +92,39 @@ function getTodoList() {
     }
 }
 
+function setTodoList() {
+    const todo = [
+        {
+            "id": Date.now() * Math.random(),
+            "title":"VanllinaJS",
+            "status":"completed"
+        },
+        {
+            "id": Date.now() * Math.random(),
+            "title":"TypeScript",
+            "status":"pending"
+        },
+        {
+            "id": Date.now() * Math.random(),
+            "title":"RTK Query",
+            "status":"pending"
+        },
+        {   
+            "id": Date.now() * Math.random(),
+            "title":"React Query",
+            "status":"pending"
+        },
+        {
+            "id": Date.now() * Math.random(),
+            "title":"GraphQL",
+            "status":"pending"
+        }
+    ]
+    
+    localStorage.setItem('todo_list', JSON.stringify(todo));
+}
+
 (function(){
-
-    // data
-    // const todo = [
-    //     {
-    //         "id":new Date().getUTCMilliseconds(),
-    //         "title":"VanllinaJS",
-    //         "status":"completed"
-    //     },
-    //     {
-    //         "id":Date().getUTCMilliseconds(),
-    //         "title":"TypeScript",
-    //         "status":"pending"
-    //     },
-    //     {
-    //         "id":Date().getUTCMilliseconds(),
-    //         "title":"RTK Query",
-    //         "status":"pending"
-    //     },
-    //     {
-    //         "id":Date().getUTCMilliseconds(),
-    //         "title":"React Query",
-    //         "status":"pending"
-    //     },
-    //     {
-    //         "id":Date().getUTCMilliseconds(),
-    //         "title":"GraphQL",
-    //         "status":"pending"
-    //     }
-    // ]
-
     const todoList = getTodoList();
     renderTodoList(todoList, 'todoList');
 })()
