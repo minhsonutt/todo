@@ -159,20 +159,49 @@ function initFormSubmit() {
        
         ulElement.appendChild(newLiElement);
         }
+
         submitForm.reset();
     })
 }
 
-// query form submit
+function searchTodo(searchTerm) {
+    if(searchTerm === '') return true;
+}
+
+function initSearchInput() {
+    const searchInput = getInputSearch();
+    if(!searchInput) return;
+
+    searchInput.addEventListener('input', function () {
+        searchTodo(searchInput.value);
+    })
+}
+
+
+//init searchInput
+// add event input for input search
+// make function searchTerm, handle hidden or show
+// make function isMath -> check input value match 
+
+// Selectors
+// get all li element
+function getAllTodoElements() {
+    return document.querySelectorAll('#todoList > li');
+}
+// get search term
+function getInputSearch() {
+    return document.getElementById('searchTerm');
+}
+// get form submit
 function getFormSubmitElement() {
     return document.getElementById('submitForm');
 }
-
-// query todo list
+// get todo list
 function getTodoListElement() {
     return document.getElementById('todoList');
 }
 
+//set data to localStorage
 function setTodoList() {
     const todo = [
         {
@@ -209,4 +238,5 @@ function setTodoList() {
     const todoList = getTodoList();
     renderTodoList(todoList, 'todoList');
     initFormSubmit();
+    initSearchInput();
 })()
